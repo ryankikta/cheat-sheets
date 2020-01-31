@@ -1,0 +1,8 @@
+**API Docker**
+kubernetes -> workloads -> api -> -> pod -> container -> $Node
+docker ps | grep 'api_api'
+docker exec -t -i [ID] /bin/bash
+**docker log**
+docker logs CONTAINERID > /dev/null
+**follow docker log**
+docker logs -f CONTAINERID > /dev/null
