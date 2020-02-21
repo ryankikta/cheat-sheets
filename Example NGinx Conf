@@ -2,16 +2,16 @@ server {
         listen 80;
 #        listen 443;
 #        ssl on;#
-#   ssl_certificate /etc/letsencrypt/live/printaura.com/fullchain.pem;
-#   ssl_certificate_key /etc/letsencrypt/live/printaura.com/privkey.pem;
+#   ssl_certificate /etc/letsencrypt/live/==WEBSITE==/fullchain.pem;
+#   ssl_certificate_key /etc/letsencrypt/live/==WEBSITE==/privkey.pem;
     #enables SSLv3/TLSv1, but not SSLv2 which is weak and should no longer be used.
 #   ssl_protocols SSLv3 TLSv1;
     #Disables all weak ciphers
 #   ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;        
       
-#   server_name  printaura.com www.printaura.com ;
-    server_name 104.198.162.202;
-    root "/home/printaura/public_html";
+#   server_name  ==WEBSITE== ;
+    server_name ==WEBSITE IP==
+    root "/var/www/html";
     port_in_redirect off;
     server_tokens off;
     autoindex off;
@@ -20,11 +20,11 @@ server {
     client_max_body_size 400m;
     client_body_buffer_size 2048k;
     large_client_header_buffers 2048 2m;
-    access_log  /home/printaura/logs/access.log;
-    error_log /home/printaura/logs/default.log ;
+    access_log  /var/logs/access.log;
+    error_log /var/logs/default.log ;
     error_page 502 /502.html;
     location = /502.html {
-        root  /home/printaura/public_html;
+        root  /var/www/html;
     }
     if ($http_user_agent ~* (Baiduspider|webalta|nikto|wkito|pikto|scan|acunetix|morfeus|webcollage|youdao) ) {
         return 401;
@@ -72,9 +72,9 @@ server {
         #                 rewrite ^/api.php   /api/ last;
         #              rewrite ^/strimages/(.*)$ /testdownload.php?source=$1 last;
     }
-    location /NewEtsyBusiness {
-        rewrite ^/NewEtsyBusiness    /etsy-app#_a_6n permanent;
-    }
+        #location /NewEtsyBusiness {
+        #rewrite ^/NewEtsyBusiness    /etsy-app#_a_6n permanent;
+        #}
     location = /favicon.ico { log_not_found off; access_log off; }
     location = /robots.txt  {  access_log off; }
     location ~* /(?:uploads|files|js\/uploadify|js)/.*\.php$ {
@@ -90,7 +90,7 @@ server {
         include fastcgi_params;
         fastcgi_pass unix:/home/printaura/.phpbrew/php/php-5.4.41/var/run/printaura_fpm.sock;
         fastcgi_param PATH_TRANSLATED $document_root$fastcgi_script_name;
-        #      fastcgi_intercept_errors on;
+        # fastcgi_intercept_errors on;
         # fastcgi_ignore_client_abort off;
         fastcgi_connect_timeout 1000000;
         fastcgi_send_timeout 1000000;
@@ -112,7 +112,7 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         #     include fastcgi_params;
-        fastcgi_pass unix:/home/printaura/.phpbrew/php/php-5.4.41/var/run/printaura_fpm.sock;
+        fastcgi_pass unix:/home/user/.phpbrew/php/php-5.4.41/var/run/X_fpm.sock;
     }
     location ~ /\. {
         deny all;
@@ -127,16 +127,16 @@ server {
 server {
     listen 443;
     ssl on;
-    ssl_certificate /etc/ssl/certs/printaura_com.pem;
-    ssl_certificate_key /etc/ssl/private/pa-2018-pkey.key;
-    #ssl_certificate /etc/letsencrypt/live/printaura.com/fullchain.pem;
-    #ssl_certificate_key /etc/letsencrypt/live/printaura.com/privkey.pem;
+    ssl_certificate /etc/ssl/certs/==WEBSITE==.pem;
+    ssl_certificate_key /etc/ssl/private/==NAME==.key;
+    #ssl_certificate /etc/letsencrypt/live/==WEBSITE==/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/==WEBSITE==/privkey.pem;
     #enables SSLv3/TLSv1, but not SSLv2 which is weak and should no longer be used.
     ssl_protocols SSLv3 TLSv1;
     #Disables all weak ciphers
     ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;
-    server_name http://104.198.162.202;
-    root "/home/printaura/public_html";
+    server_name ==WEBSITE==;
+    root "/var?www/html";
     port_in_redirect off;
     server_tokens off;
     autoindex off;
@@ -144,11 +144,11 @@ server {
     client_max_body_size 400m;
     client_body_buffer_size 1024k;
     large_client_header_buffers 16 512k;
-    access_log  /home/printaura/logs/access.log;
-    error_log /home/printaura/logs/default.log ;
+    access_log  /var/logs/access.log;
+    error_log /var/logs/default.log ;
     error_page 502 /502.php;
     location = /502.php {
-        root  /home/printaura/public_html;
+        root  /var/www/html;
     }
     if ($http_user_agent ~* (Baiduspider|webalta|nikto|wkito|pikto|scan|acunetix|morfeus|webcollage|youdao) ) {
         return 401;
@@ -196,8 +196,8 @@ server {
     #                 rewrite ^/api.php   /api/ last;
         #              rewrite ^/strimages/(.*)$ /testdownload.php?source=$1 last;
     }
-    location /NewEtsyBusiness {
-        rewrite ^/NewEtsyBusiness    /etsy-app#_a_6n permanent;
+        #location /NewEtsyBusiness {
+        #rewrite ^/NewEtsyBusiness    /etsy-app#_a_6n permanent;
     }
     location = /favicon.ico { log_not_found off; access_log off; }
     location = /robots.txt  {  access_log off; }
@@ -235,7 +235,7 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         #    include fastcgi_params;
-        fastcgi_pass unix:/home/printaura/.phpbrew/php/php-5.4.41/var/run/printaura_fpm.sock;
+        fastcgi_pass unix:/home/printaura/.phpbrew/php/php-5.4.41/var/run/X_fpm.sock;
     }
     location ~ /\. {
         deny all;
